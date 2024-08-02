@@ -1,6 +1,6 @@
 .card {
 	box-sizing: border-box;
-	width: 58vh;
+	width: 410px;
 	height: 34vh;
   background-image: linear-gradient(to top, #cfd9dfc7 0%, #e2ebf0c7 100%);  
   border: 1px solid #222831;
@@ -85,5 +85,17 @@
 
   .overview {
     overflow: auto;
+  }
+}
+
+@media (min-width: 646px) and (max-width: 1480px) {
+  .card {
+    width: 200px;
+  }
+}
+
+@media (min-width: 1800px) {
+  .card {
+    width: 510px;
   }
 }
