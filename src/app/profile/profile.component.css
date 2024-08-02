@@ -1,0 +1,160 @@
+#profile-container {
+	display: flex;
+	margin: 1vh auto 0 auto;
+	width: 65vh;
+	font-size: 1.2em;
+	border: 1px solid rgb(65, 65, 65);
+	background-color: rgb(32, 32, 32);
+}
+
+#profile-details-container {
+	display: flex;
+	flex-direction: column;
+	align-self: center;
+	align-items: flex-start;
+	gap: 4vh;
+	margin-left: 1vh;
+}
+
+#profile-rating-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font-size: 0.9em;
+	margin-top: 1vh;
+}
+
+#profile-rating-container p {
+	margin: 1vh 0 0 0;
+}
+
+#profile-picture {
+	margin: 1vh;
+	height: 25vh;
+}
+
+#ratings-container {
+	display: flex;
+	flex-direction: column;
+	width: 90%;
+	margin-left: 8vh;
+	border: 1px solid rgb(65, 65, 65);
+	background-color: rgb(32, 32, 32);
+}
+
+#categories {
+	display: flex;
+	gap: 20vh;
+	padding-top: 1vh;
+	margin-left: 31vh;
+  font-weight: bold;
+}
+
+#lang {
+	margin-left: 29vh;
+}
+
+.line {
+	width: 97%;
+	height: 0.1vh;
+	margin-left: 3vh;
+	background-color: rgb(75, 75, 75);
+}
+
+#rating-cards-container {
+	display: flex;
+	flex-direction: column;
+  margin: 2vh 0 2vh 0;
+}
+
+.category-name {
+	margin-left: 8vh;
+	margin-bottom: 1vh;
+	font-size: 2em;
+}
+
+#edit-container {
+	align-self: center;
+	margin-left: 11vh;
+}
+
+.edit-btn {
+	width: 44px;
+	height: 44px;
+	border-radius: 20px;
+	border: none;
+	background-color: rgb(93, 93, 116);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.123);
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+	transition: all 0.3s;
+}
+
+.edit-btn:hover {
+	background-color: rgb(121, 121, 154);
+	box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.336);
+}
+
+.edit-btn svg {
+	height: 17px;
+	fill: white;
+}
+
+.rating-card {
+  border-radius: 30px;
+  box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 646px) {
+  #profile-container {
+    width: 43dvh;
+  }
+
+  #edit-container {
+    margin: 0 1vh 0 0;
+  }
+
+  .category-name {
+    margin-left: 2vh;
+  }
+
+  #ratings-container {
+    margin-left: 2vh;
+    width: 42dvh;
+  }
+
+  #categories {
+    gap: 2vh;
+    margin-left: 1vh;
+  }
+
+  #lang {
+    margin-left: 0;
+  }
+
+  .line {
+    width: 90%;
+    margin-left: 2vh;
+  }
+
+  .rating-card {
+    gap: 2vh;
+    overflow: auto;
+  }
+
+  .rating-title-container {
+    margin: 0;
+  }
+
+  .rating-lang-container {
+    margin: 0;
+  }
+
+  .rating-year-container {
+    margin: 0;
+  }
+}

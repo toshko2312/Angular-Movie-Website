@@ -1,0 +1,14 @@
+<div class="similar-movies-card" [routerLink]="['/details', movie.id]" style="cursor: pointer;">
+  <div class="similar-movies-img-container">
+    <img src="{{imagePath}}" alt="{{movie.title}} poster">
+  </div>
+  <div class="similar-movies-details">
+    <div>
+      <b>{{movie.title}}</b>
+    </div>
+    <div class="similar-movies-title-container">
+      <b>Rating:</b>
+      <p class="inline">{{movie.vote_average?.toFixed(1)}}</p>
+    </div>
+  </div>
+  </div>

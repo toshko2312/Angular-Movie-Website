@@ -1,0 +1,46 @@
+.review-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid gray;
+  margin: 0 3vh 0 2vh;
+}
+
+.review-header {
+  display: flex;
+}
+
+.review-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3vh;
+  margin-left: 2vh;
+  margin-top: 2vh;
+}
+
+.review-img-container {
+  align-self: center;
+}
+
+.review-img-container img {
+  margin-left: 2vh;
+  margin-top: 3vh;
+  height: 9vh;
+  width: 9vh;
+}
+
+.review-date-container {
+  display: flex;
+  margin-top: 2vh;
+  margin-right: 1vh;
+  flex-grow: 1;
+  justify-content: flex-end;
+}
+
+.review-content {
+  margin-top: 1vh;
+  margin-left: 1vh;
+  margin-right: 1vh;
+  font-size: 1.05em;
+  line-height: 1.5;
+}

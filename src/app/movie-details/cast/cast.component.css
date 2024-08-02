@@ -1,0 +1,23 @@
+.cast-card {
+  display: flex;
+  border: 1px solid gray;
+  width: 41vh;
+  margin: 2vh;
+}
+
+.cast-details-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: 4vh;
+  gap: 5vh;
+}
+
+.cast-card img {
+  height: 20vh;
+}
+
+.cast-image-container {
+  display: flex;
+  margin-right: 1vh;
+}

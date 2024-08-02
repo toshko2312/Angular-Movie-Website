@@ -1,0 +1,38 @@
+<app-movie-searching></app-movie-searching>
+
+@if (!(loading | async)) {
+  <div id="sorting-container">
+    <select name="category" id="category" class="sorting" [(ngModel)]="category" (change)="onFilterChange()">
+      <option value="null" disabled selected>Category</option>
+      @if (genres$ | async) {
+          <option *ngFor="let genre of genres$ | async" value="{{genre.id}}">{{genre.name}}</option>
+      }
+      <option value="">All</option>
+    </select>
+  
+    <select name="sort-by" id="sort-by" class="sorting"[(ngModel)]="sort_by" (change)="onFilterChange()">
+      <option value="popularity.desc" disabled selected>Sort By</option>
+      <option value="popularity.desc">Popularity</option>
+      <option value="vote_average.desc">Rating</option>
+      <option value="vote_count.desc">Votes</option>
+      <option value="primary_release_date.desc">Date</option>
+    </select>
+  </div>
+  
+  <div id="movie-container">
+    @if (movies) {
+      @for (movie of movies.results; track $index) {
+        <app-movie-cards [movie]="movie"></app-movie-cards>
+      }
+    }
+  </div>
+  
+  @if (page < movies?.total_pages) {
+    <div id="load-more">
+      <button id="btn-load" (click)="onLoadMore()">Load More</button>
+    </div>
+  }
+
+} @else {
+  <app-loading></app-loading>
+}

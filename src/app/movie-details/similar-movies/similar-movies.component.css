@@ -1,0 +1,42 @@
+.similar-movies-card {
+  display: flex;
+  width: 32vh;
+  margin-bottom: 2vh;
+  background: rgba(255, 255, 255, 0.57);
+  box-shadow: 0 0 10px rgba(126, 126, 126, 0.575);
+  backdrop-filter: blur(10px);
+	border-radius: 17px;
+	transition: all 0.5s;
+  user-select: none;
+	color: black;
+  font-size: 1.1em;
+}
+
+.similar-movies-card:hover {
+  outline: #c7002e74 1px solid;
+  box-shadow: 0px 0px 20px 1px #c7002fc9;
+}
+
+.similar-movies-img-container  {
+  display: flex;
+  align-items: center;
+}
+
+.similar-movies-img-container img {
+  height: 15vh;
+  padding: 1vh 1vh 1vh 1vh;
+}
+
+.similar-movies-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 1vh;
+  margin-left: 2vh;
+  padding-right: 1vh;
+}
+
+.similar-movies-title-container {
+  margin-top: 2vh;
+  margin-bottom: 1vh;
+}

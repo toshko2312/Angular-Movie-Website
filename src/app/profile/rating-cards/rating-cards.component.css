@@ -1,0 +1,46 @@
+.rating-card {
+	display: flex;
+	align-items: center;
+	gap: 14vh;
+	border: 1px solid rgb(65, 65, 65);
+	margin: 2vh 2.5vh 2vh 2.8vh;
+}
+
+.rating-card img {
+	height: 14vh;
+}
+
+.rating-img-container {
+	margin: 2vh;
+}
+
+.rating-title-container {
+	margin-left: -2vh;
+	width: 44vh;
+}
+
+.rating-title-container a {
+	display: flex;
+	text-decoration: none;
+	color: hsl(0, 0%, 90%);
+	width: fit-content;
+}
+
+.rating-title-container p {
+	width: fit-content;
+}
+
+.rating-lang-container {
+	margin-right: 10vh;
+}
+
+.rating-year-container {
+  text-align: center;
+}
+
+.rating-genre-container {
+  text-align: center;
+  margin-left: -2vh;
+  margin-right: 2vh;
+	width: 20vh;
+}

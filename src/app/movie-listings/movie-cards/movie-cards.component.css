@@ -1,0 +1,89 @@
+.card {
+	box-sizing: border-box;
+	width: 58vh;
+	height: 34vh;
+  background-image: linear-gradient(to top, #cfd9dfc7 0%, #e2ebf0c7 100%);  
+  border: 1px solid #222831;
+	box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
+	backdrop-filter: blur(6px);
+	border-radius: 17px;
+	transition: all 0.5s;
+	display: flex;
+	user-select: none;
+	color: black;
+	margin: 3vh 5vh 3vh 5.5vh;
+	cursor: pointer;
+}
+
+.card:hover {
+	border: 1.5px solid #aa0028c9;
+	box-shadow: 0px 0px 30px 1px #aa0028c9;
+}
+
+.card img {
+	height: 30vh;
+	padding: 1vh;
+}
+
+.img-container {
+	display: flex;
+	height: fit-content;
+}
+
+.details-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	max-height: 40vh;
+}
+
+.title {
+	margin: 1vh 1vh 0.2vh 1vh;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-size: 1.25em;
+	font-weight: 500;
+}
+
+.release-date {
+	margin: 0.25vh 1vh 0.4vh 1vh;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-weight: 500;
+	font-size: 1.1em;
+}
+
+.overview {
+	margin: 0.25vh 1vh 0.25vh 1vh;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-weight: 500;
+	font-size: 1.1em;
+	overflow: hidden;
+}
+
+.card a {
+	text-decoration: none;
+	color: black;
+	width: fit-content;
+	height: fit-content;
+}
+
+.stats {
+	display: flex;
+	justify-content: space-between;
+	margin-top: auto;
+}
+
+.stats p {
+	margin: 2vh 1vh 1vh 1vh;
+	font-size: 1.1em;
+}
+
+@media (max-width: 646px) {
+  .card {
+    width: fit-content;
+    margin: 3vh 1vh 3vh 1vh;
+  }
+
+  .overview {
+    overflow: auto;
+  }
+}

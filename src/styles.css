@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+html {
+	scrollbar-color: #aa0028c9 #393e46;
+	scrollbar-width: thin;
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	height: 100vh;
+	font-family: Arial, Helvetica, sans-serif;
+	background: #212328;
+	color: hsl(0, 0%, 90%)
+}
+
+.inline {
+  display: inline;
+}

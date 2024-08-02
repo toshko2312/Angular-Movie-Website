@@ -1,0 +1,25 @@
+<div class="review-card">
+  <div class="review-header">
+    <div class="review-img-container">
+      <img src="{{imagePath}}" alt="">
+    </div>
+  <div class="review-info-container">
+    <div>
+      <b>Username: </b>
+      <p class="inline">{{review.author}}</p>
+    </div>
+    <div>
+      <b>Rating: </b>
+      <p class="inline">{{
+        review.author_details.rating ? review.author_details.rating : "N/A"
+      }}</p>
+    </div>
+  </div>
+  <div class="review-date-container">
+    <p>{{review.created_at.slice(0, 10)}}</p>
+  </div>
+</div>
+<div class="review-content">
+  <p class="review-content">{{ (review.content.length>1120)? (review.content | slice:0:1120)+'...':(review.content) }}</p>
+</div>
+</div>
