@@ -4,15 +4,15 @@
 <div id="container">
   <div id="movie-details-container">
     <p id="movie-title">
-      {{ detailedMovieData.title }}
-      ({{ detailedMovieData.release_date.slice(0, 4) }})
+      {{ detailedMovieData().title }}
+      ({{ detailedMovieData().release_date.slice(0, 4) }})
     </p>
     <div id="mid-section">
-      <a id="trailer-container" href="{{ trailerUrl }}" target="_blank">
+      <a id="trailer-container" href="{{ trailerUrl() }}" target="_blank">
         <img
           id="image"
           src="https://image.tmdb.org/t/p/w780/{{
-            detailedMovieData.poster_path
+            detailedMovieData().poster_path
           }}
         "
           alt=""
@@ -39,16 +39,24 @@
         </div>
       </a>
       <div id="movie-details">
-        <div id="movie-info-container"> 
+        <div id="movie-info-container">
           <div id="stats">
             <div>
               <b class="movie-info">Your rating:</b>
               @if (rating().length > 4) {
-              <div id="rate" [ngClass]="{'shake' : shake | async}" (click)="onRate($event)">
+              <div
+                id="rate"
+                [ngClass]="{ shake: shake | async }"
+                (click)="onRate($event)"
+              >
                 {{ rating() }}
               </div>
               } @else {
-              <div id="rate" [ngClass]="{'shake' : shake | async}" (click)="onRate($event)">
+              <div
+                id="rate"
+                [ngClass]="{ shake: shake | async }"
+                (click)="onRate($event)"
+              >
                 <svg
                   viewBox="0 0 576 512"
                   height="1em"
@@ -58,37 +66,37 @@
                   <path
                     d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"
                   ></path></svg
-                ><span style="margin-top: -0.175px">{{rating()}}</span>
+                ><span style="margin-top: -0.175px">{{ rating() }}</span>
               </div>
               }
             </div>
             <div>
               <b class="movie-info">Votes: </b>
-              <p class="movie-info">{{ detailedMovieData.vote_count }}</p>
+              <p class="movie-info">{{ detailedMovieData().vote_count }}</p>
             </div>
             <div>
               <b class="movie-info">Reviews: </b>
               <p class="movie-info">
-                {{ detailedMovieData.reviews.results.length }}
+                {{ detailedMovieData().reviews.results.length }}
               </p>
             </div>
           </div>
           <div id="rating-container">
-            <p id="rating">{{ detailedMovieData.vote_average.toFixed(1) }}</p>
+            <p id="rating">{{ detailedMovieData().vote_average.toFixed(1) }}</p>
           </div>
         </div>
         <div id="overview">
           <b>Overview: </b>
-          <p class="inline">{{ detailedMovieData.overview }}</p>
+          <p class="inline">{{ detailedMovieData().overview }}</p>
         </div>
         <div id="original-title">
           <b>Original title: </b>
-          <p class="inline">{{ detailedMovieData.original_title }}</p>
+          <p class="inline">{{ detailedMovieData().original_title }}</p>
         </div>
         <div id="alternative-title">
           <b>Alternative titles: </b>
           <p class="inline">
-            {{ alternativeTitles }}
+            {{ alternativeTitles() }}
           </p>
         </div>
       </div>
@@ -99,8 +107,8 @@
           <b>Country: </b>
           <p class="inline">
             {{
-              detailedMovieData.production_countries[0]
-                ? detailedMovieData.production_countries[0].name
+              detailedMovieData().production_countries[0]
+                ? detailedMovieData().production_countries[0].name
                 : "N/A"
             }}
           </p>
@@ -109,8 +117,8 @@
           <b>Language: </b>
           <p class="inline">
             {{
-              detailedMovieData.spoken_languages[0]
-                ? detailedMovieData.spoken_languages[0].english_name
+              detailedMovieData().spoken_languages[0]
+                ? detailedMovieData().spoken_languages[0].english_name
                 : "N/A"
             }}
           </p>
@@ -119,8 +127,8 @@
           <b>Duration: </b>
           <p class="inline">
             {{
-              detailedMovieData.runtime
-                ? detailedMovieData.runtime + " minutes"
+              detailedMovieData().runtime
+                ? detailedMovieData().runtime + " minutes"
                 : "N/A"
             }}
           </p>
@@ -129,8 +137,8 @@
           <b>Release date: </b>
           <p class="inline">
             {{
-              detailedMovieData.release_date
-                ? detailedMovieData.release_date
+              detailedMovieData().release_date
+                ? detailedMovieData().release_date
                 : "N/A"
             }}
           </p>
@@ -146,35 +154,30 @@
   </div>
   <div id="similar-movies-container">
     <p id="similar-movies-banner">Similar Movies</p>
-    @for (movie of detailedMovieData.recommendations.results; track $index) {
+    @for (movie of detailedMovieData().recommendations.results; track $index) {
     <app-similar-movies [movie]="movie"></app-similar-movies>
     }
   </div>
 </div>
 
-@if (detailedMovieData.credits.cast.length >= 1) {
-  <p class="category-name">Cast</p>
+@if (detailedMovieData().credits.cast.length >= 1) {
+<p class="category-name">Cast</p>
 <div class="box-container" id="cast-container">
-  @for (member of detailedMovieData.credits.cast; track $index) {
+  @for (member of detailedMovieData().credits.cast; track $index) {
   <app-cast [cast]="member"></app-cast>
   }
 </div>
-}
-
-
-@if (detailedMovieData.credits.crew.length >= 1) {
-  <p class="category-name">Crew</p>
+} @if (detailedMovieData().credits.crew.length >= 1) {
+<p class="category-name">Crew</p>
 <div class="box-container" id="crew-container">
-  @for (member of detailedMovieData.credits.crew; track $index) {
+  @for (member of detailedMovieData().credits.crew; track $index) {
   <app-crew [crew]="member"></app-crew>
   }
 </div>
-}
-
-@if (detailedMovieData.reviews.results.length >= 1) {
-  <p class="category-name">Reviews</p>
+} @if (detailedMovieData().reviews.results.length >= 1) {
+<p class="category-name">Reviews</p>
 <div id="review-container">
-  @for (review of detailedMovieData.reviews.results; track $index) {
+  @for (review of detailedMovieData().reviews.results; track $index) {
   <app-reviews [review]="review"></app-reviews>
   }
 </div>
@@ -184,6 +187,5 @@
 <p class="invisible">.</p>
 
 @if (showRating()) {
-  <app-ratings></app-ratings>
-}
-}
+<app-ratings></app-ratings>
+} }

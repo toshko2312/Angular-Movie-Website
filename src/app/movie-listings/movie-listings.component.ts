@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { MovieListingsService } from './movie-listings.service';
 import { StoreState, moviesData } from '../shared/models';
 import { Subject, takeUntil } from 'rxjs';
@@ -21,14 +27,13 @@ export class MovieListingsComponent implements OnInit, OnDestroy {
     private store: Store<StoreState>
   ) {}
 
-  ngDestroyed$ = new Subject<void>()
+  ngDestroyed$ = new Subject<void>();
   genres$ = this.store.select(selectGenres);
-  movies: moviesData;
-  page: number;
-  category: string = null;
-  sort_by: string = 'popularity.desc';
-  loading = this.store.select(selectIsLoading)
-
+  movies: WritableSignal<moviesData | null> = signal(null);
+  page: WritableSignal<number> = signal(0);
+  category: WritableSignal<string | null> = signal(null);
+  sort_by: WritableSignal<string> = signal('default');
+  loading = this.store.select(selectIsLoading);
 
   ngOnInit(): void {
     // Set store subs
@@ -38,8 +43,8 @@ export class MovieListingsComponent implements OnInit, OnDestroy {
     // Fetching the initial movies and genres, and setting up the required subs
     this.setGenres();
     this.setMovies();
-    this.setSearchSubscription()
-    this.setReloadMoviesSubscription()
+    this.setSearchSubscription();
+    this.setReloadMoviesSubscription();
 
     // Setting the title
     this.titleService.setTitle('Movies');
@@ -55,16 +60,16 @@ export class MovieListingsComponent implements OnInit, OnDestroy {
   onLoadMore() {
     // Checking if the next page should be for search or discover endpoint
     if (this.movieListingsService.searchTitle) {
-      if (this.page < this.movies.total_pages) {
+      if (this.page() < this.movies().total_pages) {
         this.store.dispatch(storeActions.incrementPage());
         this.movieListingsService.searchMovies(
-          this.movieListingsService.searchTitle,
+          this.movieListingsService.searchTitle(),
           true,
-          this.page
+          this.page()
         );
       }
     } else {
-      if (this.page < this.movies.total_pages) {
+      if (this.page() < this.movies().total_pages) {
         this.store.dispatch(storeActions.incrementPage());
         this.setMovies(true);
       }
@@ -74,64 +79,70 @@ export class MovieListingsComponent implements OnInit, OnDestroy {
   // Setting the new movies
   setMovies = (load_more: boolean = false) => {
     if (!load_more) {
-      this.store.dispatch(storeActions.setLoading({loading: true}))
+      this.store.dispatch(storeActions.setLoading({ loading: true }));
     }
-    this.movieListingsService
-      .fetchMovies(this.page, this.sort_by, this.category, load_more)
+    this.movieListingsService.fetchMovies(
+      this.page(),
+      this.sort_by(),
+      this.category() === 'default' ? 'popularity.desc' : this.category(),
+      load_more
+    );
   };
 
   // Setting the genres
   setGenres() {
-    this.movieListingsService.fetchGenres()
+    this.movieListingsService.fetchGenres();
   }
 
   // Setting up the search movie endpoint sub
   setSearchSubscription() {
     this.movieListingsService.onMovieSearch
-    .pipe(takeUntil(this.ngDestroyed$))
-    .subscribe({
-      next: (data) => {
-        if (data.load_more) {
-          this.store.dispatch(loadMoreMovies({movie: data.data}))
-          this.store.dispatch(storeActions.incrementPage())
-        } else {
-          this.store.dispatch(storeActions.setLoading({loading: false}))
-          this.store.dispatch(setMovies({movie: data.data}))
-        }
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+      .pipe(takeUntil(this.ngDestroyed$))
+      .subscribe({
+        next: (data) => {
+          if (data.load_more) {
+            this.store.dispatch(loadMoreMovies({ movie: data.data }));
+            this.store.dispatch(storeActions.incrementPage());
+          } else {
+            this.store.dispatch(storeActions.setLoading({ loading: false }));
+            this.store.dispatch(setMovies({ movie: data.data }));
+          }
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
   }
 
   // Reload movies
   setReloadMoviesSubscription() {
     this.movieListingsService.reloadMovies
-    .pipe(takeUntil(this.ngDestroyed$))
-    .subscribe(() => {
-      this.setMovies();
-    });
+      .pipe(takeUntil(this.ngDestroyed$))
+      .subscribe(() => {
+        this.setMovies();
+      });
   }
 
   setMovieSub() {
-    this.store.select(selectMovies)
-    .pipe(takeUntil(this.ngDestroyed$))
-    .subscribe((data) => {
-      this.movies = data;
-    });
+    this.store
+      .select(selectMovies)
+      .pipe(takeUntil(this.ngDestroyed$))
+      .subscribe((res) => {
+        this.movies.set(res);
+      });
   }
 
   setPageSub() {
-    this.store.select(selectPage)
-    .pipe(takeUntil(this.ngDestroyed$))
-    .subscribe((data) => {
-      this.page = data;
-    });
+    this.store
+      .select(selectPage)
+      .pipe(takeUntil(this.ngDestroyed$))
+      .subscribe((res) => {
+        this.page.set(res);
+      });
   }
 
   // Unsubscribing from the subs
   ngOnDestroy(): void {
-    this.ngDestroyed$.next()
+    this.ngDestroyed$.next();
   }
 }

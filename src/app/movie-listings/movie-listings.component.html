@@ -11,7 +11,7 @@
     </select>
   
     <select name="sort-by" id="sort-by" class="sorting"[(ngModel)]="sort_by" (change)="onFilterChange()">
-      <option value="popularity.desc" disabled selected>Sort By</option>
+      <option value="default" disabled >Sort By</option>
       <option value="popularity.desc">Popularity</option>
       <option value="vote_average.desc">Rating</option>
       <option value="vote_count.desc">Votes</option>
@@ -21,13 +21,13 @@
   
   <div id="movie-container">
     @if (movies) {
-      @for (movie of movies.results; track $index) {
+      @for (movie of movies().results; track $index) {
         <app-movie-cards [movie]="movie"></app-movie-cards>
       }
     }
   </div>
   
-  @if (page < movies?.total_pages) {
+  @if (page() < movies()?.total_pages) {
     <div id="load-more">
       <button id="btn-load" (click)="onLoadMore()">Load More</button>
     </div>

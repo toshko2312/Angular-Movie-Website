@@ -1,20 +1,15 @@
-
 <div id="pagination">
-@if (currentPage > 1) {
-  <div id="prev" (click)="onPageChange(currentPage - 1)">< prev</div>
-}
+  @if (currentPage() > 1) {
+  <div id="prev" (click)="onPageChange(currentPage() - 1)">< prev</div>
+  } @for (page of createRange(currentPage(), 'prev'); track $index) {
+  <div class="page" (click)="onPageChange(page)">{{ page }}</div>
+  }
 
-@for (page of createRange(currentPage, 'prev'); track $index) {
-  <div class="page" (click)="onPageChange(page)">{{page}}</div>
-}
+  <div class="page selected">{{ currentPage() }}</div>
 
-<div class="page selected">{{currentPage}}</div>
-
-@for (page of createRange(currentPage, 'next'); track $index) {
-  <div class="page" (click)="onPageChange(page)">{{page}}</div>
-}
-
-@if (currentPage < totalPages) {
-  <div id="next" (click)="onPageChange(currentPage + 1)">next ></div>
-}
+  @for (page of createRange(currentPage(), 'next'); track $index) {
+  <div class="page" (click)="onPageChange(page)">{{ page }}</div>
+  } @if (currentPage < totalPages) {
+  <div id="next" (click)="onPageChange(currentPage() + 1)">next ></div>
+  }
 </div>

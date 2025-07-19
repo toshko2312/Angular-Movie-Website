@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, input, OnInit, signal, WritableSignal } from '@angular/core';
 import { Review } from '../../shared/models';
 import { environment } from '../../../environments/environments';
 
@@ -7,19 +7,19 @@ import { environment } from '../../../environments/environments';
   templateUrl: './reviews.component.html',
   styleUrl: './reviews.component.css'
 })
-export class ReviewsComponent implements OnChanges {
-  @Input() review: Review
-  imagePath: string
+export class ReviewsComponent implements OnInit {
+  review = input.required<Review>()
+  imagePath: WritableSignal<string> = signal('')
 
-  ngOnChanges(): void {
+  ngOnInit(): void {
     this.setImagePath()
   }
 
   setImagePath() {
-    if (this.review.author_details.avatar_path) {
-			this.imagePath = `${environment.IMAGE_URL}/${this.review.author_details.avatar_path}`;
+    if (this.review().author_details.avatar_path) {
+			this.imagePath.set(`${environment.IMAGE_URL}/${this.review().author_details.avatar_path}`)
 		} else {
-			this.imagePath = "../../../assets/default.svg.png";
+			this.imagePath.set("../../../assets/default.svg.png")
 		}
   }
 }

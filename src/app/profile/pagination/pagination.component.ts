@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { ProfileService } from '../profile.service';
 import { Subject, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -11,8 +17,8 @@ import { selectRatedMovies } from '../store/profile.selectors';
   styleUrl: './pagination.component.css',
 })
 export class PaginationComponent implements OnInit, OnDestroy {
-  currentPage: number;
-  totalPages: number;
+  currentPage: WritableSignal<number> = signal(null);
+  totalPages: WritableSignal<number> = signal(null);
   onDestroyed$ = new Subject<void>();
 
   constructor(
@@ -46,7 +52,7 @@ export class PaginationComponent implements OnInit, OnDestroy {
       }
     } else if (mode == 'next') {
       for (let i = n + 1; i <= n + 4; i++) {
-        if (i <= this.totalPages) {
+        if (i <= this.totalPages()) {
           arr.push(i);
         }
       }
@@ -59,8 +65,8 @@ export class PaginationComponent implements OnInit, OnDestroy {
       .select(selectRatedMovies)
       .pipe(takeUntil(this.onDestroyed$))
       .subscribe((data) => {
-        this.currentPage = data.page;
-        this.totalPages = data.total_pages;
+        this.currentPage.set(data.page);
+        this.totalPages.set(data.total_pages);
       });
   }
 

@@ -1,17 +1,21 @@
-<div class="card" [routerLink]="['/details', movie.id]">
+<div class="card" [routerLink]="['/details', movie().id]">
   <div class="img-container">
-      <img
-        src="{{imagePath}}"
-        alt="poster"
-      />
+    <img src="{{ imagePath() }}" alt="poster" />
   </div>
   <div class="details-container">
-      <p class="title">Title: {{movie.title}}</p>
-    <p class="release-date">Release date: {{movie.release_date}}</p>
-    <p class="overview">Overview: {{ (movie.overview.length>120)? (movie.overview | slice:0:120)+'...':(movie.overview) }}</p>
+    <p class="title">Title: {{ movie().title }}</p>
+    <p class="release-date">Release date: {{ movie().release_date }}</p>
+    <p class="overview">
+      Overview:
+      {{
+        movie().overview.length > 120
+          ? (movie().overview | slice : 0 : 120) + "..."
+          : movie().overview
+      }}
+    </p>
     <div class="stats">
-      <p>Rating: {{movie.vote_average.toFixed(1)}}</p>
-      <p>Votes: {{movie.vote_count}}</p>
+      <p>Rating: {{ movie().vote_average.toFixed(1) }}</p>
+      <p>Votes: {{ movie().vote_count }}</p>
     </div>
   </div>
 </div>

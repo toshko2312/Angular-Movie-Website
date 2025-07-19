@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { AccountState, StoreState } from '../../shared/models';
 import { MovieDetailsService } from '../movie-details.service';
 import { Store } from '@ngrx/store';
@@ -11,11 +17,11 @@ import { selectDetailedMovie } from '../store/movie-details.selectors';
   styleUrl: './ratings.component.css',
 })
 export class RatingsComponent implements OnInit, OnDestroy {
-  title: string
-  newRating: string;
-  accountState: AccountState
-  movieId: number
-  onDestroyed$ = new Subject<void>()
+  title: WritableSignal<string> = signal('');
+  newRating: WritableSignal<string> = signal('');
+  accountState: WritableSignal<AccountState | null> = signal(null);
+  movieId: WritableSignal<number | null> = signal(null);
+  onDestroyed$ = new Subject<void>();
 
   constructor(
     private movieDetailsService: MovieDetailsService,
@@ -23,7 +29,7 @@ export class RatingsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.setStoreSub()
+    this.setStoreSub();
   }
 
   // Get star value on click
@@ -32,24 +38,24 @@ export class RatingsComponent implements OnInit, OnDestroy {
 
     if (target.name == 'star-radio') {
       if (target.checked) {
-        this.newRating = target.value;
+        this.newRating.set(target.value);
       }
     }
   }
 
   // Submit the new rating
   onSubmit() {
-    this.movieDetailsService.submitRating(this.newRating, this.movieId);
+    this.movieDetailsService.submitRating(this.newRating(), this.movieId());
     this.movieDetailsService.onToggleRating.set(false);
   }
 
   // Delete old rating if it exists
   onDelete() {
     if (
-      this.accountState.rated ||
+      this.accountState().rated ||
       this.movieDetailsService.rating().length > 4
     ) {
-      this.movieDetailsService.deleteRating(this.movieId);
+      this.movieDetailsService.deleteRating(this.movieId());
       this.movieDetailsService.onToggleRating.set(false);
     }
   }
@@ -64,16 +70,17 @@ export class RatingsComponent implements OnInit, OnDestroy {
   }
 
   setStoreSub() {
-    this.store.select(selectDetailedMovie)
-    .pipe(takeUntil(this.onDestroyed$))
-    .subscribe((data) => {
-      this.movieId = data.movie.id
-      this.title = data.movie.title
-      this.accountState = data.movie.account_states
-    })
+    this.store
+      .select(selectDetailedMovie)
+      .pipe(takeUntil(this.onDestroyed$))
+      .subscribe((data) => {
+        this.movieId.set(data.movie.id);
+        this.title.set(data.movie.title);
+        this.accountState.set(data.movie.account_states);
+      });
   }
 
   ngOnDestroy(): void {
-    this.onDestroyed$.next()
+    this.onDestroyed$.next();
   }
 }

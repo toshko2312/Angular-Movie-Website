@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal, WritableSignal } from '@angular/core';
 import { MovieListingsService } from '../movie-listings.service';
 import { Store } from '@ngrx/store';
 import { StoreState } from '../../shared/models';
@@ -16,7 +16,7 @@ export class MovieSearchingComponent {
   ) {}
 
   typingTimer: ReturnType<typeof setTimeout>;
-  doneTypingInterval: number = 1400;
+  doneTypingInterval: WritableSignal<number> = signal(1400);
 
   // Sets a timer after each keystroke, if another keystroke follows timer is cleared
   // if the timer runs out an HTTP request is being sent
@@ -28,11 +28,11 @@ export class MovieSearchingComponent {
       this.typingTimer = setTimeout(() => {
         this.store.dispatch(setLoading({ loading: true }));
         this.movieService.searchMovies(inputElement.value);
-      }, this.doneTypingInterval);
+      }, this.doneTypingInterval());
     } else if (this.movieService.searchTitle) {
       this.typingTimer = setTimeout(() => {
         this.movieService.reloadMovies.next();
-      }, this.doneTypingInterval);
+      }, this.doneTypingInterval());
     }
   }
 }
